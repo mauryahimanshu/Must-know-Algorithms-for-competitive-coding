@@ -1,0 +1,3 @@
+# All executable files are ignored
+*/*.exe
+*/*.out
