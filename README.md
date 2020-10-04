@@ -1,1 +1,1 @@
-# Must-know-Algorithms-in-C-
+# Must-know-Algorithms-in-C++
