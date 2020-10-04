@@ -3,8 +3,8 @@
 *Nearly everything functional in computer science is an implementation of data structure along with certain algorithms*
 
 This repository will be used to help beginners to learn the workflow on github.
-Also this repo will be under **Hacktoberfest** label.
-If don't know about Hacktoberfest, checkout : [Hacktoberfest by Digital Ocean](https://hacktoberfest.digitalocean.com/)
+Also this repo can also help you with **Hacktoberfest**.
+If you don't know about Hacktoberfest, checkout : [Hacktoberfest by Digital Ocean](https://hacktoberfest.digitalocean.com/)
 
 # Contributing
 
