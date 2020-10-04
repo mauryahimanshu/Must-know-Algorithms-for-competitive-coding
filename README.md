@@ -12,6 +12,10 @@ If you don't know about Hacktoberfest, checkout : [Hacktoberfest by Digital Ocea
 
 When contributing to this repository, please first create a new issue if it does not exist.
 
+# Important 
+***Create the file only in its respective directory. If the directory does not exist create a new one.
+Also the maintainer will not able assign everybody to each issue. So, go ahead commit and create a new pull request for any open Issue.
+Please do not submit a pull request to an Issue for which someone has already submitted a pull request and waiting to be merged.***
 
 ## Pull Request Process
 
@@ -22,6 +26,8 @@ When contributing to this repository, please first create a new issue if it does
 
 
 ---
+
+### Do Not forget to Star this repo. So that, it can help many beginners on Github.
 
 
 Project maintainers have the right and responsibility to remove, edit, or
