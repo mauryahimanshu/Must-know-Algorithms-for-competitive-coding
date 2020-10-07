@@ -84,7 +84,38 @@ Node* buildTree(string str)
     return root;
 }
 
+//CODE TO FIND THE BOTTOM VIEW FOR THE TREE
+int leftMinValue = 0;
+int rightMaxValue = 0;
+void width(Node* root, int lev) {
+        if (root == NULL) return;
 
+        leftMinValue = min(leftMinValue, lev);
+        rightMaxValue = max(rightMaxValue, lev);
+
+        width(root->left, lev - 1);
+        width(root->right, lev + 1);
+}
+vector<int> bottomView(Node *root) 
+{ 
+    if (!root) 
+        return {};
+    width(node, 0);
+    vector<int> ans(rightMaxValue - leftMinValue + 1,0);
+    queue<pair<Node*,int>> que;
+    que.push({root, -leftMinValue});
+    while (que.size() != 0) {
+            int size = que.size();
+            while (size-- > 0) {
+                pair<Node*,int> rpair = que.pop();
+                ans[rpair.second] = rpair.first->data;
+                if (rpair.first->left != NULL) que.push({rpair.first->left, rpair.second - 1});
+                if (rpair.first->right != NULL) que.push({rpair.first->right, rpair.second + 1});
+            }
+        }
+    return ans;
+    
+} 
 
 int main() {
     int t;
@@ -103,50 +134,3 @@ int main() {
     }
     return 0;
 }
-
-vector<int> bottomView(Node *root) 
-{ 
-    
-    vector<int> v;
-    if (!root) 
-        return v; 
-  
-    
-    map < int,vector<int> > m; 
-    int hd = 0; 
-  
-    
-    
-    queue<pair<Node*, int> > que; 
-    que.push(make_pair(root, hd)); 
-  
-     while (!que.empty()) 
-     { 
-        
-        pair<Node *,int> temp = que.front(); 
-        que.pop(); 
-        hd = temp.second; 
-        Node* node = temp.first; 
-  
-        
-        m[hd].push_back(node->data); 
-  
-        if (node->left != NULL) 
-            que.push(make_pair(node->left, hd-1)); 
-        if (node->right != NULL) 
-            que.push(make_pair(node->right, hd+1)); 
-    } 
-  
-
-    map< int,vector<int> > :: iterator it; 
-    for (it=m.begin(); it!=m.end(); it++) 
-    { 
-        int j=0;
-        for (int i=0; i<it->second.size(); ++i) 
-            j= it->second[i]; 
-        v.push_back(j);
-    } 
-    return v;
-} 
-
-
