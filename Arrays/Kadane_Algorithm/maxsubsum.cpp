@@ -2,7 +2,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//Kaden's Algorithm's
+//Kadane's Algorithm
 int main(){
     int n;
     cin>>n;
