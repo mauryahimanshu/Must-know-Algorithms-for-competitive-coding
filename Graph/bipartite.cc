@@ -20,9 +20,9 @@ bool bfs(int src,vector<int> &vis,vector<vector<int>>& graph)
             {
                 pair<int,int> rvtx=que.front();
                 que.pop();
-                if(vis[rvtx.first]!=-1)
+                if(vis[rvtx.first]!=-1) // already visited(cycle).
                 {
-                    if(vis[rvtx.first]!=rvtx.second)
+                    if(vis[rvtx.first]!=rvtx.second) // check for conflict.
                         return false;
                 }
                 vis[rvtx.first]=rvtx.second;
@@ -56,7 +56,7 @@ bool isBipartite(vector<vector<int>>& graph) {
 // Driver program to test above function 
 int main() 
 { 
-	int G[][V] = {{0, 1, 0, 1}, 
+	vector<vector<int>> G={{0, 1, 0, 1}, 
 		{1, 0, 1, 0}, 
 		{0, 1, 0, 1}, 
 		{1, 0, 1, 0} 
