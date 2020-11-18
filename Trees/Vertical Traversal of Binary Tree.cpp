@@ -19,7 +19,7 @@ Node* newNode(int val)
     return temp;
 }
 
-vector <int> verticalOrder(Node *root);
+vector<vector <int>> verticalOrder(Node *root);
 
 
 Node* buildTree(string str)
@@ -108,54 +108,47 @@ int main() {
         
     	Node* root = buildTree(s);
     	
-    	vector <int> res = verticalOrder(root);
-    	for (int i : res) cout << i << " ";
-        cout << endl;
+    	vector<vector <int>> res = verticalOrder(root);
+    	for (vector<int> ar : res) 
+	{
+	   for(int ele: ar)
+	     cout<<ele;
+	   cout<<" "
+	}
     }
 	return 0;
 }
 
+int leftMinValue = 0;
+int rightMaxValue = 0;
+void width(Node* root, int lev) {
+        if (root == NULL) return;
 
+        leftMinValue = min(leftMinValue, lev);
+        rightMaxValue = max(rightMaxValue, lev);
 
-vector<int> verticalOrder(Node* root) 
+        width(root->left, lev - 1);
+        width(root->right, lev + 1);
+}
+
+vector<vector<int>> verticalOrder(Node* root) 
 { 
-   
-    vector<int> v;
-    if (!root) 
-        return v; 
-    
-    
-    map < int,vector<int> > m; 
-    int hd = 0; 
-  
-    
-    queue<pair<Node*, int> > que; 
-    que.push(make_pair(root, hd)); 
-  
-     while (!que.empty()) 
-     { 
-        
-        pair<Node *,int> temp = que.front(); 
-        que.pop(); 
-        hd = temp.second; 
-        Node* node = temp.first; 
-  
-        
-        m[hd].push_back(node->data); 
-  
-        if (node->left != NULL) 
-            que.push(make_pair(node->left, hd-1)); 
-        if (node->right != NULL) 
-            que.push(make_pair(node->right, hd+1)); 
-    } 
-  
-    
-    map< int,vector<int> > :: iterator it; 
-    for (it=m.begin(); it!=m.end(); it++) 
-    { 
-        for (int i=0; i<it->second.size(); ++i) 
-            v.push_back(it->second[i]); 
-        
-    } 
+   width(root, 0);
+   int n = rightMaxValue - leftMinValue + 1;
+   vector<vector<int>> ans(n,vector<int>()); 
+    queue<pair<Node*,int>> que;
+        que.push({root, -leftMinValue});
+
+        while (que.size() != 0) {
+            int size = que.size();
+            while (size-- > 0) {
+                pair<Node*,int> rpair = que.pop();
+                ans[rpair.second].push_back(rpair.first->data);
+                if (rpair.first->left != NULL) que.push({rpair.first->left, rpair.second - 1});
+                if (rpair.first->right != NULL) que.push({rpair.first->right, rpair.second + 1});
+            }
+        }
+
+        return ans;
 } 
 
