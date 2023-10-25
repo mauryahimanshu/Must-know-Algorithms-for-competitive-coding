@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+
+bool isBipartite(vector<vector<int>>& graph, int src) {
+    int n = graph.size();
+    vector<int> color(n, -1);  // Initialize colors as -1 (unvisited)
+
+    queue<int> q;
+    q.push(src);
+    color[src] = 0;  // Color the source vertex as 0
+
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+
+        for (int v : graph[u]) {
+            // If v is not visited
+            if (color[v] == -1) {
+                color[v] = 1 - color[u];  // Color v with the opposite color of u
+                q.push(v);
+            } else if (color[v] == color[u]) {
+                return false;  // If adjacent vertices have the same color, it's not bipartite
+            }
+        }
+    }
+
+    return true;  // If no conflicts were found, the graph is bipartite
+}
+
+bool isBipartiteGraph(vector<vector<int>>& graph) {
+    int n = graph.size();
+
+    for (int i = 0; i < n; i++) {
+        if (isBipartite(graph, i) == false) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    int n, m;  // n vertices, m edges
+    cin >> n >> m;
+
+    vector<vector<int>> graph(n);
+
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);  // Assuming an undirected graph
+    }
+
+    if (isBipartiteGraph(graph)) {
+        cout << "The graph is bipartite." << endl;
+    } else {
+        cout << "The graph is not bipartite." << endl;
+    }
+
+    return 0;
+}
