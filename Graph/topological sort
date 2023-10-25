@@ -3,93 +3,99 @@
 
 #include <iostream>
 using namespace std;
+
+// Define a structure for a node in the adjacency list
 struct node {
-	int vertex;
-	struct node *next;
+    int vertex;
+    struct node *next;
 };
+
 struct node *graph[20];
 int travstatus[20];
 int parent[20];
 char value[20];
-//struct node *finalanswer[20];
+
+// Function to display the adjacency list
 void display(struct node *graph[], int n) {
-	for (int i = 0; i < n; i++) {
-		struct node *p = graph[i];
-		while (p != NULL) {
-			cout << p->vertex << " ";
-			p = p->next;
-		}
-		cout << endl;
-	}
+    for (int i = 0; i < n; i++) {
+        struct node *p = graph[i];
+        cout << "Adjacency list of vertex " << i << ": ";
+        while (p != NULL) {
+            cout << p->vertex << " ";
+            p = p->next;
+        }
+        cout << endl;
+    }
 }
+
+// Function to insert a new edge into the graph
 struct node *insert(struct node *start, int val) {
-	struct node *temp = new struct node;
-	temp->vertex = val;
-	temp->next = NULL;
-	struct node *travel = start;
-	if (start == NULL) {
-		start = temp;
-	} else {
-		while (travel->next != NULL) {
-			travel = travel->next;
-		}
-		travel->next = temp;
-		// start=temp;
-	}
-	return start;
+    struct node *temp = new struct node;
+    temp->vertex = val;
+    temp->next = NULL;
+    struct node *travel = start;
+    if (start == NULL) {
+        start = temp;
+    } else {
+        while (travel->next != NULL) {
+            travel = travel->next;
+        }
+        travel->next = temp;
+    }
+    return start;
 }
-void dsfvisit(struct node *start[], int i) {
 
-	//cout << i << " ";
-	travstatus[i] = 1;
-	struct node *temp = graph[i];
-	while (temp != NULL) {
-		int j = temp->vertex;
-
-		if (travstatus[j] == 0) {
-			parent[j] = i;
-			dsfvisit(graph, j);
-		}
-		temp = temp->next;
-
-	}
-	printf("%c\t",value[i]);
+// Depth-First Search (DFS) visit for topological sorting
+void dfsVisit(struct node *start[], int i) {
+    travstatus[i] = 1;
+    struct node *temp = graph[i];
+    while (temp != NULL) {
+        int j = temp->vertex;
+        if (travstatus[j] == 0) {
+            parent[j] = i;
+            dfsVisit(graph, j);
+        }
+        temp = temp->next;
+    }
+    cout << value[i] << "\t";
 }
-void dsf(struct node *start[], int n) {
-	for (int i = 0; i < n; i++) {
-		travstatus[i] = 0;
-		parent[i] = -1;
-	}
-	for (int i = 0; i < n; i++) {
 
-		if (travstatus[i] == 0) {
-			dsfvisit(graph, i);
-		}
-	}
+// Depth-First Search (DFS) for topological sorting
+void dfs(struct node *start[], int n) {
+    for (int i = 0; i < n; i++) {
+        travstatus[i] = 0;
+        parent[i] = -1;
+    }
+    for (int i = 0; i < n; i++) {
+        if (travstatus[i] == 0) {
+            dfsVisit(graph, i);
+        }
+    }
 }
-void addingcharvalues(int n) {
-	for (int i = 0; i < n; i++) {
-		printf("enter the character value u want at vertex %d",i);
-		getchar();
-		scanf("%c",&value[i]);
-	}
 
-
+// Function to add character values to the vertices
+void addingCharValues(int n) {
+    for (int i = 0; i < n; i++) {
+        cout << "Enter the character value for vertex " << i << ": ";
+        cin.ignore();
+        scanf("%c", &value[i]);
+    }
 }
+
 int main() {
-	int j, n;
-	scanf("%d",&n);
-	addingcharvalues(n);
-	for (int i = 0; i < n; i++) {
-		j = 0;
-		while (j != -1) {
-			cin >> j;
-			if (j != -1) {
-				graph[i] = insert(graph[i], j);
-			}
-		}
-	}
-	display(graph, n);
-	printf("the topologically sorted values are");
-	dsf(graph, n);
+    int j, n;
+    scanf("%d", &n);
+    addingCharValues(n);
+    for (int i = 0; i < n; i++) {
+        j = 0;
+        while (j != -1) {
+            cin >> j;
+            if (j != -1) {
+                graph[i] = insert(graph[i], j);
+            }
+        }
+    }
+    display(graph, n);
+    cout << "The topologically sorted values are: ";
+    dfs(graph, n);
 }
