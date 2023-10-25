@@ -1,0 +1,95 @@
+//Aim: Given a Directed Acyclic Graph (DAG), find Topological Sort of the graph.
+//Difficulty: Easy
+
+#include <iostream>
+using namespace std;
+struct node {
+	int vertex;
+	struct node *next;
+};
+struct node *graph[20];
+int travstatus[20];
+int parent[20];
+char value[20];
+//struct node *finalanswer[20];
+void display(struct node *graph[], int n) {
+	for (int i = 0; i < n; i++) {
+		struct node *p = graph[i];
+		while (p != NULL) {
+			cout << p->vertex << " ";
+			p = p->next;
+		}
+		cout << endl;
+	}
+}
+struct node *insert(struct node *start, int val) {
+	struct node *temp = new struct node;
+	temp->vertex = val;
+	temp->next = NULL;
+	struct node *travel = start;
+	if (start == NULL) {
+		start = temp;
+	} else {
+		while (travel->next != NULL) {
+			travel = travel->next;
+		}
+		travel->next = temp;
+		// start=temp;
+	}
+	return start;
+}
+void dsfvisit(struct node *start[], int i) {
+
+	//cout << i << " ";
+	travstatus[i] = 1;
+	struct node *temp = graph[i];
+	while (temp != NULL) {
+		int j = temp->vertex;
+
+		if (travstatus[j] == 0) {
+			parent[j] = i;
+			dsfvisit(graph, j);
+		}
+		temp = temp->next;
+
+	}
+	printf("%c\t",value[i]);
+}
+void dsf(struct node *start[], int n) {
+	for (int i = 0; i < n; i++) {
+		travstatus[i] = 0;
+		parent[i] = -1;
+	}
+	for (int i = 0; i < n; i++) {
+
+		if (travstatus[i] == 0) {
+			dsfvisit(graph, i);
+		}
+	}
+}
+void addingcharvalues(int n) {
+	for (int i = 0; i < n; i++) {
+		printf("enter the character value u want at vertex %d",i);
+		getchar();
+		scanf("%c",&value[i]);
+	}
+
+
+}
+int main() {
+	int j, n;
+	scanf("%d",&n);
+	addingcharvalues(n);
+	for (int i = 0; i < n; i++) {
+		j = 0;
+		while (j != -1) {
+			cin >> j;
+			if (j != -1) {
+				graph[i] = insert(graph[i], j);
+			}
+		}
+	}
+	display(graph, n);
+	printf("the topologically sorted values are");
+	dsf(graph, n);
+}
